@@ -9,12 +9,13 @@ const app = express();
 //Llamar al router
 app.use('/', require('./routes/router'));
 
-//Setear Motor de plantilla
+//Setear motor de plantillas
 app.set('view engine', 'ejs');
 
 //Setear carpeta public para archivos estáticos
 app.use(express.static('public'));
 
+//Procesar datos enviados desde forms
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
