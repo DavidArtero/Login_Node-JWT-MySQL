@@ -18,7 +18,7 @@ router.get('/register', (req, res) =>{
 
 //router para métodos del controlador
 router.post('/register', authController.register);
-
+router.post('/login', authController.login);
 
 
 module.exports = router;
