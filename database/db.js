@@ -4,7 +4,7 @@ const conexion = mysql.createConnection({
     host : process.env.DB_HOST,
     user : 'root',
     password : process.env.DB_PASS,
-    database : process.env.DB_DATABASE,
+    database : 'login_node_jwt',
     
 })
 
