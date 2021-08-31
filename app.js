@@ -3,8 +3,12 @@ const express = require ('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 
+
 const app = express();
 
+//Parsear el body usando body parser
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //Llamar al router
 app.use('/', require('./routes/router'));
