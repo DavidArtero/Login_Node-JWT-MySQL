@@ -2,9 +2,11 @@
 const express = require ('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-
+const swal = require('sweetalert');
 
 const app = express();
+
+
 
 //Parsear el body usando body parser
 app.use(express.urlencoded({ extended: true }));

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const authController = require('../controllers/authController');
 
 //router para vistas
@@ -9,7 +10,7 @@ router.get('/', (req, res) =>{
 });
 
 router.get('/login', (req, res) =>{
-    res.render('login');
+    res.render('login', {alert:false});
 });
 
 router.get('/register', (req, res) =>{
