@@ -75,8 +75,9 @@ exports.login = async (req, res) => {
           } else {
             //inicio sesión correcto
             const id = results[0].id;
+            
             const token = jwt.sign({ id: id }, process.env.JWT_SECRETO, {
-              expiresIn: process.env.JWT_TIEMPO_EXPIRA,
+              expiresIn: process.env.JWT_TIEMPO_EXPIRA
             });
             console.log("token " + token + " \npara el usuario: " + user);
 
@@ -85,9 +86,9 @@ exports.login = async (req, res) => {
                 Date.now() +
                   process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
               ),
-              httpOnly: true,
+              httpOnly: false
             };
-            res.cookie("jwt", token, cookiesOptions);
+            res.cookie('jwt', token, cookiesOptions);
             res.render("login", {
               alert: true,
               alertTitle: "Conexión exitosa",
@@ -108,10 +109,11 @@ exports.login = async (req, res) => {
 
 //Saber si está autentificado
 exports.isAuthenticated = async (req, res, next) =>{
+
   if(req.cookies.jwt){
     try {
-      const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.envv.JWT_SECRETO);
-      consexion.query('SELECT * FROM users WHERE id = ?', [decodificada.id], (err, results)=>{
+      const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+      conexion.query('SELECT * FROM users WHERE id = ?', [decodificada.id], (err, results)=>{
         if(!results){
           return next();
         }

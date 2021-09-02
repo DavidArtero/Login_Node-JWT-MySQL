@@ -7,6 +7,7 @@ const authController = require('../controllers/authController');
 //router para vistas
 router.get('/', authController.isAuthenticated, (req, res) =>{
     res.render('index', {user: req.user});
+    console.log(req.user)
 });
 
 router.get('/login', (req, res) =>{

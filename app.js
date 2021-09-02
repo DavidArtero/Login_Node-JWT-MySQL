@@ -12,6 +12,9 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//Poder trabajar con cookies
+app.use(cookieParser());
+
 //Llamar al router
 app.use('/', require('./routes/router'));
 
@@ -28,8 +31,8 @@ app.use(express.json());
 //Setear variables de entorno
 dotenv.config({path: './env/.env'});
 
-//Poder trabajar con cookies
-app.use(cookieParser);
+
+
 
 
 app.listen(3000,()=>{
@@ -37,9 +40,9 @@ app.listen(3000,()=>{
 });
 
 //Eliminar  cache y que no se pueda volver atrás luego de logout
-app.use(function(req, res, next){
-    if(!req.user){
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        next();
-    }
-});
+// app.use(function(req, res, next){
+//     if(!req.user){
+//         res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+//         next();
+//     }
+// });
