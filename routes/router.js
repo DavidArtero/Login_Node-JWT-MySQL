@@ -5,8 +5,8 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 //router para vistas
-router.get('/', (req, res) =>{
-    res.render('index');
+router.get('/', authController.isAuthenticated, (req, res) =>{
+    res.render('index', {user: req.user});
 });
 
 router.get('/login', (req, res) =>{
@@ -20,6 +20,7 @@ router.get('/register', (req, res) =>{
 //router para métodos del controlador
 router.post('/register', authController.register);
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
 
 module.exports = router;

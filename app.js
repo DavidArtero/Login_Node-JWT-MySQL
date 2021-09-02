@@ -29,9 +29,17 @@ app.use(express.json());
 dotenv.config({path: './env/.env'});
 
 //Poder trabajar con cookies
-//app.use(cookieParser);
+app.use(cookieParser);
 
 
 app.listen(3000,()=>{
     console.log("Server UP running in http://localhost:3000");
+});
+
+//Eliminar  cache y que no se pueda volver atrás luego de logout
+app.use(function(req, res, next){
+    if(!req.user){
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        next();
+    }
 });

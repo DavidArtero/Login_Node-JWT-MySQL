@@ -5,6 +5,7 @@ const conexion = require("../database/db");
 const { promisify } = require("util");
 const swal = require("sweetalert");
 const dotenv = require("dotenv");
+const { nextTick } = require("process");
 
 //Procedimiento para registrarnos
 exports.register = async (req, res) => {
@@ -106,15 +107,30 @@ exports.login = async (req, res) => {
 };
 
 //Saber si está autentificado
-exports.isAuthenticated = async(req, res) =>{
-  if(req.cookiesOptions.jwt){
+exports.isAuthenticated = async (req, res, next) =>{
+  if(req.cookies.jwt){
     try {
-      const decodificada = await promisify(jwt.verify)(req.cookiesOptions.jwt,process.envv.JWT_SECRETO);
-      consexion.query('SELECT * FROM users WHERE id = ?', [decodificada.id], (err, res)=>{
-        
+      const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.envv.JWT_SECRETO);
+      consexion.query('SELECT * FROM users WHERE id = ?', [decodificada.id], (err, results)=>{
+        if(!results){
+          return next();
+        }
+        req.user = results[0];
+        return next();
       })
     } catch (error) {
+      console.log(error);
+      return next();
       
     }
+  }else{
+    res.redirect('/login');
   }
 }
+
+//Cerrar sesión
+exports.logout = (req, res)=>{
+  res.clearCookie('jwt');
+  return res.redirect('/');
+}
+
